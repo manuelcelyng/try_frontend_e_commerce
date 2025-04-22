@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProductoFormData } from "../models/producto";
 
 const API = "/api"; // ← ajustá esto según tu backend
 
@@ -18,4 +19,11 @@ export const setImagenesProducto = async (files: File[] | null) => {
   });
 
   return response.data; // array de URLs
+};
+
+export const updateProducto = (id: string, producto: ProductoFormData) =>
+  axios.put(`${API}/producto/${id}`, producto);
+
+export const getProductos = () => {
+  return axios.get(`${API}/producto`);
 };

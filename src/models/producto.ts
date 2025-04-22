@@ -1,3 +1,5 @@
+import { ImagenesProductos } from "./imagenesProductos";
+
 export type ProductoFormData = {
   id?: string;
   nombre: string;
@@ -8,5 +10,5 @@ export type ProductoFormData = {
   status: boolean;
   marcaId: string;
   categoriaId: string;
-  imagenes?: string[];
+  imagenes?: ImagenesProductos[];
 };

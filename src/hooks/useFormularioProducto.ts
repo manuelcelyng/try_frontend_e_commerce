@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductoFormData } from "../models/producto";
 import {
   crearProducto,
   setImagenesProducto,
+  updateProducto,
 } from "../services/producto.service";
 import { mostrarError, mostrarExito } from "../services/toast.service";
 import { productoValidationSchema } from "../validations/producto.schema";
@@ -13,6 +14,13 @@ export function useFormularioProducto(
 ) {
   const [archivos, setArchivos] = useState<File[]>([]);
   const [previewImgs, setPreviewImgs] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (modo === "editar" && data?.imagenes) {
+      const urls = data.imagenes.map((img) => img.url);
+      setPreviewImgs(urls);
+    }
+  }, []);
 
   const initialValues: ProductoFormData = {
     nombre: data?.nombre || "",
@@ -33,8 +41,17 @@ export function useFormularioProducto(
         ...data,
         imagenes,
       };
-      await crearProducto(productoFinal);
-      mostrarExito("Producto creado con éxito 🎉");
+      if (modo === "editar") {
+        if (!data.id) {
+          mostrarError("ID de producto no encontrado ❌");
+          throw new Error("ID de producto no encontrado");
+        }
+        await updateProducto(data.id, productoFinal);
+        mostrarExito("Producto editado con éxito 🎉");
+      } else if (modo === "crear") {
+        await crearProducto(productoFinal);
+        mostrarExito("Producto creado con éxito 🎉");
+      }
     } catch (error) {
       console.error("Error al crear producto:", error);
       mostrarError("Error al guardar producto ❌");

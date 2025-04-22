@@ -26,6 +26,7 @@ export default function FormularioWrapper<T extends FormikValues>({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            enableReinitialize
         >
 
             <Form className="space-y-4">

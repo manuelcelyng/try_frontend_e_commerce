@@ -22,10 +22,6 @@ type Props = {
 
 export default function FormularioProducto({ modo, data }: Props) {
 
-    // Cargar marcas y categorias
-    const { marcas } = useMarcas();
-    const { categorias } = useCategorias();
-
     const {
         initialValues,
         productoValidationSchema,
@@ -34,6 +30,13 @@ export default function FormularioProducto({ modo, data }: Props) {
         setArchivos,
         setPreviewImgs,
     } = useFormularioProducto(modo, data);
+
+    // Cargar marcas y categorias
+    const { marcas } = useMarcas();
+    const { categorias } = useCategorias();
+
+
+
 
 
 
